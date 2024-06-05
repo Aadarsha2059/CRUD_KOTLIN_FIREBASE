@@ -130,6 +130,8 @@ class AddProductActivity : AppCompatActivity() {
                 }
 
             }.addOnFailureListener{
+                Toast.makeText(applicationContext,it.localizedMessage,
+                Toast.LENGTH_LONG).show()
 
             }
 
