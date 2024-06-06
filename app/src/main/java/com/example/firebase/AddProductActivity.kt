@@ -125,7 +125,8 @@ class AddProductActivity : AppCompatActivity() {
             imageReference.putFile(url).addOnSuccessListener {
                 imageReference.downloadUrl.addOnSuccessListener {downloadUrl->
                     var imagesUrl =downloadUrl.toString()
-                    addProduct(imagesUrl)
+
+                    addProduct(imagesUrl,imageName)
 
                 }
 
@@ -141,7 +142,7 @@ class AddProductActivity : AppCompatActivity() {
 
     }
 
-    fun addProduct(url:String){
+    fun addProduct(url:String,imagesName:String){
         var name:String= addProductBinding.productNameId.text.toString()
         var price:String= addProductBinding.productPriceId.text.toString()
         var list:String=addProductBinding.productListId.text.toString()
@@ -164,7 +165,7 @@ class AddProductActivity : AppCompatActivity() {
             var id=ref.push().key.toString()
 
             //to place value in the previously made model
-            var data= ProductModel(id,name,price,list)
+            var data= ProductModel(id,name,price,list,imagesName)
 
             ref.child(id).setValue(data).addOnCompleteListener {
                 if(it.isSuccessful){

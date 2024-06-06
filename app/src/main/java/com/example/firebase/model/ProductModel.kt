@@ -8,10 +8,12 @@ data class ProductModel(
     var name:String="",
     var price:String="",
     var list:String="",
-    var url:String=""
+    var url:String="",
+    var imageName: String=""
 
 ) :Parcelable{
     constructor(parcel: Parcel) : this(
+        parcel.readString()?:"",
         parcel.readString()?:"",
         parcel.readString()?:"",
         parcel.readString()?:"",
@@ -27,6 +29,7 @@ data class ProductModel(
         parcel.writeString(price)
         parcel.writeString(list)
         parcel.writeString(url)
+        parcel.writeString(imageName)
     }
 
     override fun describeContents(): Int {
