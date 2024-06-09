@@ -1,4 +1,4 @@
-package com.example.firebase
+package com.example.ui.activity
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.firebase.R
 import com.example.firebase.databinding.ActivityAddProductBinding
 import com.example.firebase.model.ProductModel
 import com.google.firebase.database.FirebaseDatabase
@@ -116,7 +117,7 @@ class AddProductActivity : AppCompatActivity() {
 }
     fun uploadImage(){
         val imageName=UUID.randomUUID().toString()
-        //ram
+
         var imageReference= storageRef.child("products").child(imageName)
 
 

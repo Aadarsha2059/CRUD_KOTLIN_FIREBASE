@@ -1,4 +1,4 @@
-package com.example.firebase
+package com.example.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.firebase.R
 import com.example.firebase.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                     ).show()
 
                     //navigate to dashboard
-                    var intent =Intent(this@MainActivity,DashBoardActivity::class.java)
+                    var intent =Intent(this@MainActivity, DashBoardActivity::class.java)
                     startActivity(intent)
                 }
 

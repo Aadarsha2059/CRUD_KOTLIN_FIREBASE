@@ -1,4 +1,4 @@
-package com.example.firebase
+package com.example.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebase.Adapter.ProductAdapter
+import com.example.firebase.R
 import com.example.firebase.databinding.ActivityDashBoardBinding
 import com.example.firebase.model.ProductModel
 import com.google.firebase.database.DataSnapshot

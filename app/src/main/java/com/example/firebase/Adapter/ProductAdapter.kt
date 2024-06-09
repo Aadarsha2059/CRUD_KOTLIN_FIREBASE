@@ -11,7 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firebase.R
-import com.example.firebase.UpdateProductActivity
+import com.example.ui.activity.UpdateProductActivity
 import com.example.firebase.model.ProductModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -63,7 +63,7 @@ class ProductAdapter(var context: Context, var data:ArrayList<ProductModel>):Rec
 
 
         holder.UpdateButtonId.setOnClickListener{
-            var intent= Intent(context,UpdateProductActivity::class.java)
+            var intent= Intent(context, UpdateProductActivity::class.java)
             intent.putExtra("product",data[position])
             context.startActivity(intent)
 
