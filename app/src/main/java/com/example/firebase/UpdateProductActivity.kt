@@ -152,6 +152,23 @@ class UpdateProductActivity : AppCompatActivity() {
 
         }
 
+        //image browse id to update the new image
+        updateProductBinding.imageUpdate.setOnClickListener{
+            var permissions = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                android.Manifest.permission.READ_MEDIA_IMAGES
+            }else{
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            }
+            if (ContextCompat.checkSelfPermission(this,permissions) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, arrayOf(permissions),1)
+            }else{
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT
+                activityResultLauncher.launch(intent)
+            }
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

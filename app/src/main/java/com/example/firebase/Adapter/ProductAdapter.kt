@@ -47,7 +47,7 @@ class ProductAdapter(var context: Context, var data:ArrayList<ProductModel>):Rec
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.productName.text=data[position].name
-        holder.productPrice.text=data[position].price.toString()
+        holder.productPrice.text=data[position].price
         holder.productList.text=data[position].list
         var image=data[position].url
 

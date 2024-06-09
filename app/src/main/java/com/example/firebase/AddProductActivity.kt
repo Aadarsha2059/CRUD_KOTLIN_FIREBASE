@@ -151,7 +151,7 @@ class AddProductActivity : AppCompatActivity() {
         var id=ref.push().key.toString()
 
         //to place value in the previously made model
-        var data= ProductModel(id,name,price,list,url)
+        var data= ProductModel(id,name,price,list,url,imagesName)
 
         ref.child(id).setValue(data).addOnCompleteListener {
         }
