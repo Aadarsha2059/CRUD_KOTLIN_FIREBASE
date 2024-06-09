@@ -19,11 +19,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class DashBoardActivity : AppCompatActivity() {
     lateinit var dashBoardBinding: ActivityDashBoardBinding
     var database: FirebaseDatabase = FirebaseDatabase.getInstance()
     var ref: DatabaseReference = database.reference.child("products")
+
+    var firebaseStorage: FirebaseStorage = FirebaseStorage.getInstance();
+    var storageRef: StorageReference = firebaseStorage.reference
 
     //making arraylist of productmodel
     var productList=ArrayList<ProductModel>()
@@ -50,10 +55,14 @@ class DashBoardActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 var id=productAdapter.getProductId(viewHolder.adapterPosition)
 
+                var imageName=productAdapter.getImageName(viewHolder.adapterPosition)
 
-                //to delete the data
+                //to delete the data from storage and realtime database
                 ref.child(id).removeValue().addOnCompleteListener {
                     if (it.isSuccessful) {
+                        storageRef.child("products").child(imageName).delete()
+                        Toast.makeText(applicationContext,"Data deleted",
+                            Toast.LENGTH_LONG).show()
                         Toast.makeText(applicationContext, "Data delete", Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(
