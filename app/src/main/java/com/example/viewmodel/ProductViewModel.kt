@@ -10,11 +10,12 @@ class ProductViewModel(val repository: ProductRepository): ViewModel() {
     fun addProduct(productModel: ProductModel, callback:(Boolean, String?)->Unit){
         repository.addProduct(productModel,callback)
 
-        fun uploadImage(imageUrl: Uri, callback: (Boolean, String?, String?) -> Unit){
-            repository.uploadImage(imageUrl){
-                success,imageUrl,imageName->callback(success,imageUrl,imageName)
-            }
-        }
 
+
+    }
+    fun uploadImage(imageUrl: Uri, callback: (Boolean, String?, String?) -> Unit){
+        repository.uploadImage(imageUrl){
+                success,imageUrl,imageName->callback(success,imageUrl,imageName)
+        }
     }
 }
