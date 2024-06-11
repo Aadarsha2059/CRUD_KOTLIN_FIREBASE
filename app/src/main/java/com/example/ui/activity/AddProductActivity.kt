@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import com.example.firebase.databinding.ActivityAddProductBinding
 import com.example.firebase.model.ProductModel
+import com.example.repository.ProductRepositoryImpl
 import com.example.utils.ImageUtils
 import com.example.viewmodel.ProductViewModel
 import com.squareup.picasso.Picasso
@@ -64,6 +65,9 @@ class AddProductActivity : AppCompatActivity() {
 
         }
 
+        var repo=ProductRepositoryImpl()
+        productViewModel= ProductViewModel(repo )
+
         //from gist file week eight lesson 2
 
 
@@ -109,10 +113,12 @@ class AddProductActivity : AppCompatActivity() {
             if(success){
                 Toast.makeText(applicationContext,message,
                     Toast.LENGTH_LONG).show()
+                finish()
 
             }else{
                 Toast.makeText(applicationContext,message,
                     Toast.LENGTH_LONG).show()
+
             }
         }
 

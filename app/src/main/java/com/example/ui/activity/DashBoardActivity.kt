@@ -3,6 +3,7 @@ package com.example.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,8 @@ import com.example.firebase.Adapter.ProductAdapter
 import com.example.firebase.R
 import com.example.firebase.databinding.ActivityDashBoardBinding
 import com.example.firebase.model.ProductModel
+import com.example.repository.ProductRepositoryImpl
+import com.example.viewmodel.ProductViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -25,15 +28,11 @@ import com.google.firebase.storage.StorageReference
 
 class DashBoardActivity : AppCompatActivity() {
     lateinit var dashBoardBinding: ActivityDashBoardBinding
-    var database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    var ref: DatabaseReference = database.reference.child("products")
 
-    var firebaseStorage: FirebaseStorage = FirebaseStorage.getInstance();
-    var storageRef: StorageReference = firebaseStorage.reference
 
-    //making arraylist of productmodel
-    var productList=ArrayList<ProductModel>()
     lateinit var productAdapter: ProductAdapter
+
+    lateinit var productViewModel: ProductViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,37 +41,73 @@ class DashBoardActivity : AppCompatActivity() {
         dashBoardBinding = ActivityDashBoardBinding.inflate(layoutInflater)
 
         setContentView(dashBoardBinding.root)
-        productAdapter=ProductAdapter(this@DashBoardActivity,productList)
 
-        ItemTouchHelper(object:ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                TODO("Not yet implemented")
+
+        val repo=ProductRepositoryImpl()
+        productViewModel=ProductViewModel(repo)
+
+
+        productViewModel.fetchProduct()
+
+        productAdapter=ProductAdapter(this@DashBoardActivity,
+            ArrayList())
+
+//        dashBoardBinding.recyclerViewId.layoutManager=LinearLayoutManager(this)
+//        dashBoardBinding.recyclerViewId.adapter=productAdapter
+
+        dashBoardBinding.recyclerViewId.apply {
+            layoutManager=LinearLayoutManager(this@DashBoardActivity)
+            adapter=productAdapter
+        }
+
+        productViewModel.loadingState.observe(this){loading->
+            if(loading){
+                dashBoardBinding.progressBarTwo.visibility= View.VISIBLE
+
+
+            }else {
+                dashBoardBinding.progressBarTwo.visibility = View.GONE
+
+            }
+        }
+
+        productViewModel.productList.observe(this){products->
+            products?.let {
+                productAdapter.updateData(it)
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                var id=productAdapter.getProductId(viewHolder.adapterPosition)
 
-                var imageName=productAdapter.getImageName(viewHolder.adapterPosition)
+        }
 
-                //to delete the data from storage and realtime database
-                ref.child(id).removeValue().addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        storageRef.child("products").child(imageName).delete()
-                        Toast.makeText(applicationContext,"Data deleted",
-                            Toast.LENGTH_LONG).show()
-                        Toast.makeText(applicationContext, "Data delete", Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(
-                            applicationContext, it.exception?.message, Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-            }
-        }).attachToRecyclerView(dashBoardBinding.recyclerViewId)
+//        ItemTouchHelper(object:ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
+//            override fun onMove(
+//                recyclerView: RecyclerView,
+//                viewHolder: RecyclerView.ViewHolder,
+//                target: RecyclerView.ViewHolder
+//            ): Boolean {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                var id=productAdapter.getProductId(viewHolder.adapterPosition)
+//
+//                var imageName=productAdapter.getImageName(viewHolder.adapterPosition)
+//
+//                //to delete the data from storage and realtime database
+//                ref.child(id).removeValue().addOnCompleteListener {
+//                    if (it.isSuccessful) {
+//                        storageRef.child("products").child(imageName).delete()
+//                        Toast.makeText(applicationContext,"Data deleted",
+//                            Toast.LENGTH_LONG).show()
+//                        Toast.makeText(applicationContext, "Data delete", Toast.LENGTH_LONG).show()
+//                    } else {
+//                        Toast.makeText(
+//                            applicationContext, it.exception?.message, Toast.LENGTH_LONG
+//                        ).show()
+//                    }
+//                }
+//            }
+//        }).attachToRecyclerView(dashBoardBinding.recyclerViewId)
 
 
         //intent for floatingaction button intent
@@ -84,36 +119,7 @@ class DashBoardActivity : AppCompatActivity() {
             startActivity(intent)
 
         }
-        //event listener conditions
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                productList.clear()
-                for (eachData in snapshot.children) {
 
-                    var product = eachData.getValue(ProductModel::class.java)
-                    if (product != null) {
-                        Log.d("data from firebase", product.name)
-                        Log.d("data from firebase", product.list)
-                        Log.d("data from firebase", product.price.toString())
-                        Log.d("data from firebase", product.id)
-
-                        productList.add(product)
-                    }
-
-                    //calling layoutmanager and adapter here
-
-
-                    dashBoardBinding.recyclerViewId.layoutManager=LinearLayoutManager(this@DashBoardActivity)
-                    dashBoardBinding.recyclerViewId.adapter = productAdapter
-                }
-
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

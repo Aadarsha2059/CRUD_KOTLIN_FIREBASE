@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.ui.activity.DashBoardActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBarTwo"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="93dp"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="185dp"
+        tools:layout_editor_absoluteY="290dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewId"
 

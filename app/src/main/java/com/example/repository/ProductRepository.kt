@@ -10,4 +10,14 @@ interface ProductRepository {
     fun uploadImage(imageUrl: Uri, callback: (Boolean, String?, String?) -> Unit)
 
     fun addProduct(productModel: ProductModel, callback:(Boolean,String?)->Unit)
+
+    fun getAllProduct(callback:(List<ProductModel>?,Boolean,String?)->Unit)
+
+    fun updateProduct(id:String,callback: (Boolean, String?) -> Unit)
+
+    fun deleteData(id:String,callback: (Boolean, String?) -> Unit)
+
+    fun deleteImage(imageName:String,callback: (Boolean, String?) -> Unit)
+
+
 }
