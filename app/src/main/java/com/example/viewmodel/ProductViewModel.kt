@@ -8,6 +8,9 @@ import com.example.repository.ProductRepository
 
 
 class ProductViewModel(val repository: ProductRepository): ViewModel() {
+    fun updateProduct(id:String,data:MutableMap<String,Any>?,callback: (Boolean, String?) -> Unit){
+        repository.updateProduct(id,data,callback)
+    }
 
     fun addProduct(productModel: ProductModel, callback:(Boolean, String?)->Unit){
         repository.addProduct(productModel,callback)
@@ -15,11 +18,13 @@ class ProductViewModel(val repository: ProductRepository): ViewModel() {
 
 
     }
-    fun uploadImage(imageUrl: Uri, callback: (Boolean, String?, String?) -> Unit){
-        repository.uploadImage(imageUrl){
-                success,imageUrl,imageName->callback(success,imageUrl,imageName)
+    fun uploadImage(imageName:String, imageUrl: Uri, callback: (Boolean, String?) -> Unit){
+        repository.uploadImage(imageName,imageUrl){
+                success,imageUrl->
+            callback(success,imageUrl)
         }
     }
+
 
     var _productList=MutableLiveData<List<ProductModel>?>()
 

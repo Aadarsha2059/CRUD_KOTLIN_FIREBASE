@@ -14,6 +14,7 @@ import com.example.repository.ProductRepositoryImpl
 import com.example.utils.ImageUtils
 import com.example.viewmodel.ProductViewModel
 import com.squareup.picasso.Picasso
+import java.util.UUID
 
 class AddProductActivity : AppCompatActivity() {
 
@@ -88,11 +89,10 @@ class AddProductActivity : AppCompatActivity() {
 
     }
     fun uploadImage() {
-
-
-        imageUri?.let { url ->
-            productViewModel.uploadImage(url)
-            { success, imageName, imageUrl ->
+        val imageName= UUID.randomUUID().toString()
+        imageUri?.let {
+            productViewModel.uploadImage(imageName,it)
+            { success,  imageUrl ->
 
                 if (success) {
                     addProduct(imageUri.toString(),imageName.toString())
