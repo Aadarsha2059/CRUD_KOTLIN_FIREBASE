@@ -98,7 +98,7 @@ class ProductRepositoryImpl:ProductRepository {
         })
     }
 
-    override fun updateProduct(id: String, data:MutableMap<String,Any>,callback: (Boolean, String?) -> Unit) {
+    override fun updateProduct(id: String, data:MutableMap<String,Any>?,callback: (Boolean, String?) -> Unit) {
        data?.let {
            ref.child(id).updateChildren(data).addOnCompleteListener {
                if (it.isSuccessful) {
@@ -115,11 +115,28 @@ class ProductRepositoryImpl:ProductRepository {
     }
 
     override fun deleteData(id: String, callback: (Boolean, String?) -> Unit) {
-        TODO("Not yet implemented")
+        ref.child(id).removeValue().addOnCompleteListener {
+            if (it.isSuccessful) {
+                callback(true,"Data has been deleted")
+
+
+
+            } else {
+                callback(false,"Unable to delete")
+            }
+        }
     }
 
     override fun deleteImage(imageName: String, callback: (Boolean, String?) -> Unit) {
-        TODO("Not yet implemented")
+        storageRef.child("products").child(imageName).delete()
+            .addOnCompleteListener {
+                if(it.isSuccessful){
+                    callback(true,"Image deleted")
+                }else{
+                    callback(false,"Unable to delete the image")
+                }
+            }
+
     }
 }
 

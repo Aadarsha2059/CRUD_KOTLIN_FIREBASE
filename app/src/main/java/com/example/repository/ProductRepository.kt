@@ -15,5 +15,8 @@ interface ProductRepository {
 
     fun deleteData(id:String,callback: (Boolean, String?) -> Unit)
 
+
+    //Boolean for success either true or false
+    //String for message "Your data has been deleted"
     fun deleteImage(imageName:String,callback: (Boolean, String?) -> Unit)
 }

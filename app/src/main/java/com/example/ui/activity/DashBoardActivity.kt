@@ -79,38 +79,27 @@ class DashBoardActivity : AppCompatActivity() {
 
         }
 
-//        ItemTouchHelper(object:ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
-//            override fun onMove(
-//                recyclerView: RecyclerView,
-//                viewHolder: RecyclerView.ViewHolder,
-//                target: RecyclerView.ViewHolder
-//            ): Boolean {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                var id=productAdapter.getProductId(viewHolder.adapterPosition)
-//
-//                var imageName=productAdapter.getImageName(viewHolder.adapterPosition)
-//
-//                //to delete the data from storage and realtime database
-//                ref.child(id).removeValue().addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        storageRef.child("products").child(imageName).delete()
-//                        Toast.makeText(applicationContext,"Data deleted",
-//                            Toast.LENGTH_LONG).show()
-//                        Toast.makeText(applicationContext, "Data delete", Toast.LENGTH_LONG).show()
-//                    } else {
-//                        Toast.makeText(
-//                            applicationContext, it.exception?.message, Toast.LENGTH_LONG
-//                        ).show()
-//                    }
-//                }
-//            }
-//        }).attachToRecyclerView(dashBoardBinding.recyclerViewId)
+        ItemTouchHelper(object:ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                var id=productAdapter.getProductId(viewHolder.adapterPosition)
+
+                var imageName=productAdapter.getImageName(viewHolder.adapterPosition)
+
+                //to delete the data from storage and realtime database
+
+            }
+        }).attachToRecyclerView(dashBoardBinding.recyclerViewId)
 
 
-        //intent for floatingaction button intent
+        //intent for floating action button intent
         dashBoardBinding.floatingId.setOnClickListener {
             var intent = Intent(
                 this@DashBoardActivity,
