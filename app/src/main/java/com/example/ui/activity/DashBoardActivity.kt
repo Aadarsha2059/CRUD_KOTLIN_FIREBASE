@@ -95,6 +95,19 @@ class DashBoardActivity : AppCompatActivity() {
 
                 //to delete the data from storage and realtime database
 
+                productViewModel.deleteData(id){
+                    success,message->
+                    if(success){
+                        Toast.makeText(applicationContext,message,Toast.LENGTH_LONG).show()
+                        productViewModel.deleteImage(imageName){
+                            success,message->
+                        }
+
+                    }else{
+                        Toast.makeText(applicationContext,message,Toast.LENGTH_LONG).show()
+                    }
+                }
+
             }
         }).attachToRecyclerView(dashBoardBinding.recyclerViewId)
 

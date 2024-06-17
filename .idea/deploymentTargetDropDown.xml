@@ -2,9 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddProductActivity">
-        <State />
-      </entry>
       <entry key="AddProductActivity (1)">
         <State />
       </entry>
@@ -14,7 +11,10 @@
       <entry key="DashBoardActivity (1)">
         <State />
       </entry>
-      <entry key="UpdateProductActivity">
+      <entry key="SensorDashBoardActivity">
+        <State />
+      </entry>
+      <entry key="SignInActivity">
         <State />
       </entry>
       <entry key="app">

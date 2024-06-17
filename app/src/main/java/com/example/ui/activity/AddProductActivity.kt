@@ -12,11 +12,13 @@ import com.example.firebase.databinding.ActivityAddProductBinding
 import com.example.firebase.model.ProductModel
 import com.example.repository.ProductRepositoryImpl
 import com.example.utils.ImageUtils
+import com.example.utils.LoadingUtils
 import com.example.viewmodel.ProductViewModel
 import com.squareup.picasso.Picasso
 import java.util.UUID
 
 class AddProductActivity : AppCompatActivity() {
+    lateinit var loadingUtils:LoadingUtils
 
     lateinit var addProductBinding: ActivityAddProductBinding
 
@@ -51,6 +53,8 @@ class AddProductActivity : AppCompatActivity() {
         addProductBinding = ActivityAddProductBinding.inflate(layoutInflater)
 
         setContentView(addProductBinding.root)
+
+        loadingUtils= LoadingUtils(this)
 
 
         //.let is used so that nullable cant be executed
@@ -89,6 +93,8 @@ class AddProductActivity : AppCompatActivity() {
 
     }
     fun uploadImage() {
+        loadingUtils.showLoading()
+
         val imageName= UUID.randomUUID().toString()
         imageUri?.let {
             productViewModel.uploadImage(imageName,it)
@@ -111,6 +117,7 @@ class AddProductActivity : AppCompatActivity() {
         var data = ProductModel("", name, price, list, url, imagesName)
         productViewModel.addProduct(data) { success, message ->
             if(success){
+                loadingUtils.dismiss()
                 Toast.makeText(applicationContext,message,
                     Toast.LENGTH_LONG).show()
                 finish()
